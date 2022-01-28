@@ -39,9 +39,9 @@ window.addEventListener('load', () => {
 
   /* eslint-disable */
   const vertices: Float32Array = new Float32Array([
-    0, 1, 0, 1,
-    1, -1, 0, 1,
-    1, 1, 0, 1,
+    0.0, 0.5, 0.0, 1.0,
+    -0.5, -0.5, 0.0, 1.0,
+    0.5, -0.5, 0.0, 1.0,
   ]);
   /* eslint-enable */
 
@@ -66,7 +66,7 @@ window.addEventListener('load', () => {
       0
     );
 
-    context.drawArrays(context.TRIANGLE_STRIP, 0, 3);
+    context.drawArrays(context.POINTS, 0, 3);
   };
 
   draw();
