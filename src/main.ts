@@ -4,11 +4,13 @@ import Shaders from '@app/engine/Shaders';
 import Program from '@app/engine/Program';
 import Buffer from '@app/engine/Buffer';
 
-// import Mandelbrot from '@app/Mandelbrot';
+/* eslint-disable */
+import Mandelbrot from '@app/Mandelbrot';
 
 import init, {
   get_mandelbrot,
 } from '../wasm';
+/* eslint-enable */
 
 function resizeCanvas(
   canvas: HTMLCanvasElement,
@@ -53,13 +55,17 @@ window.addEventListener('load', () => {
       context.useProgram(program);
 
       const maxIteration: number = 10000;
+      // eslint-disable-next-line
+      console.log(`iterations: ${maxIteration * canvas.width * canvas.height}`);
 
+      // // eslint-disable-next-line
       // console.time('typescript');
-      // const verticesTypescript: number[] = Mandelbrot.getSet(
+      // const vertices: number[] = Mandelbrot.getSet(
       //   canvas.height,
       //   canvas.width,
       //   maxIteration
       // );
+      // // eslint-disable-next-line
       // console.timeEnd('typescript');
 
       // eslint-disable-next-line
