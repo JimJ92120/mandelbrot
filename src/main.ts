@@ -1,6 +1,7 @@
 import '@app/style.css';
 
 import Shaders from '@app/engine/Shaders';
+import Program from '@app/engine/Program';
 
 function resizeCanvas(
   canvas: HTMLCanvasElement
@@ -22,9 +23,15 @@ window.addEventListener('load', () => {
   resizeCanvas(canvas);
 
   const { vertexShader, fragmentShader } = Shaders.getShaders(context);
-
   if (!vertexShader || !fragmentShader) return;
 
+  const program: WebGLProgram | null = Program.getProgram(
+    context,
+    vertexShader,
+    fragmentShader
+  );
+  if (!program) return;
+
   // eslint-disable-next-line
-  console.log(vertexShader, fragmentShader);
+  console.log(program);
 });
