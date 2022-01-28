@@ -4,6 +4,8 @@ import Shaders from '@app/engine/Shaders';
 import Program from '@app/engine/Program';
 import Buffer from '@app/engine/Buffer';
 
+import Mandelbrot from '@app/Mandelbrot';
+
 function resizeCanvas(
   canvas: HTMLCanvasElement,
   context: WebGL2RenderingContext
@@ -44,17 +46,18 @@ window.addEventListener('load', () => {
 
   context.useProgram(program);
 
-  /* eslint-disable */
-  const vertices: Float32Array = new Float32Array([
-    0.0, 0.5,
-    -0.5, -0.5,
-    0.5, -0.5,
-  ]);
-  /* eslint-enable */
+  const vertices: number[] = Mandelbrot.getSet(
+    canvas.height,
+    canvas.width,
+    10
+  );
+
+  // eslint-disable-next-line
+  // console.log(vertices);
 
   const buffer: WebGLBuffer | null = Buffer.initBuffer(
     context,
-    vertices
+    new Float32Array(vertices)
   );
 
   const draw: any = (): void => {
@@ -73,7 +76,7 @@ window.addEventListener('load', () => {
       0
     );
 
-    context.drawArrays(context.POINTS, 0, 3);
+    context.drawArrays(context.POINTS, 0, vertices.length / 2);
   };
 
   draw();
