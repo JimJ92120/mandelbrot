@@ -3,12 +3,11 @@ function isInMandelbrot(
   iterationCount: number
 ): boolean {
   let z: [number, number] = [0, 0];
-  let n: number = 0;
-  let p: [number, number] = [null, null];
-  let d: number;
+  let iteration: number = 0;
+  let res: number;
 
   do {
-    p = [
+    const p: [number, number] = [
       Math.pow(z[0], 2) - Math.pow(z[1], 2),
       2 * z[0] * z[1]
     ];
@@ -16,11 +15,12 @@ function isInMandelbrot(
       p[0] + complex[0],
       p[1] + complex[1]
     ];
-    d = Math.sqrt(Math.pow(z[0], 2) + Math.pow(z[1], 2));
-    n += 1;
-  } while (d <= 2 && n < iterationCount);
+    res = Math.sqrt(Math.pow(z[0], 2) + Math.pow(z[1], 2));
 
-  return d <= 2;
+    iteration++;
+  } while (res <= 2 && iteration < iterationCount);
+
+  return res <= 2;
 }
 
 function getComplexNumber(
