@@ -20,7 +20,7 @@ function isInMandelbrot(
     n += 1;
   } while (d <= 2 && n < iterationCount);
 
-  return d > 2;
+  return d <= 2;
 }
 
 function getComplexNumber(
