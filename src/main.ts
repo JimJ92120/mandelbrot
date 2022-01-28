@@ -5,13 +5,20 @@ import Program from '@app/engine/Program';
 import Buffer from '@app/engine/Buffer';
 
 function resizeCanvas(
-  canvas: HTMLCanvasElement
+  canvas: HTMLCanvasElement,
+  context: WebGL2RenderingContext
 ): void {
   const clientRect: DOMRect = document.documentElement.getBoundingClientRect();
   const { height, width } = clientRect;
 
   canvas.height = height;
   canvas.width = width;
+  context.viewport(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
 }
 
 window.addEventListener('load', () => {
@@ -21,7 +28,7 @@ window.addEventListener('load', () => {
   const context: WebGL2RenderingContext = canvas.getContext('webgl2');
   if (!context) return;
 
-  resizeCanvas(canvas);
+  resizeCanvas(canvas, context);
   context.clearColor(0, 0, 0, 1);
   context.clear(WebGL2RenderingContext.COLOR_BUFFER_BIT);
 
