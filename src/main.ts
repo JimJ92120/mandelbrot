@@ -46,9 +46,9 @@ window.addEventListener('load', () => {
 
   /* eslint-disable */
   const vertices: Float32Array = new Float32Array([
-    0.0, 0.5, 0.0, 1.0,
-    -0.5, -0.5, 0.0, 1.0,
-    0.5, -0.5, 0.0, 1.0,
+    0.0, 0.5,
+    -0.5, -0.5,
+    0.5, -0.5,
   ]);
   /* eslint-enable */
 
@@ -66,7 +66,7 @@ window.addEventListener('load', () => {
 
     context.vertexAttribPointer(
       0,
-      4,
+      2,
       WebGL2RenderingContext.FLOAT,
       false,
       0,
