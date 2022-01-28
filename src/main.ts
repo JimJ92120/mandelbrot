@@ -2,6 +2,7 @@ import '@app/style.css';
 
 import Shaders from '@app/engine/Shaders';
 import Program from '@app/engine/Program';
+import Buffer from '@app/engine/Buffer';
 
 function resizeCanvas(
   canvas: HTMLCanvasElement
@@ -21,6 +22,8 @@ window.addEventListener('load', () => {
   if (!context) return;
 
   resizeCanvas(canvas);
+  context.clearColor(0, 0, 0, 1);
+  context.clear(WebGL2RenderingContext.COLOR_BUFFER_BIT);
 
   const { vertexShader, fragmentShader } = Shaders.getShaders(context);
   if (!vertexShader || !fragmentShader) return;
@@ -32,6 +35,39 @@ window.addEventListener('load', () => {
   );
   if (!program) return;
 
-  // eslint-disable-next-line
-  console.log(program);
+  context.useProgram(program);
+
+  /* eslint-disable */
+  const vertices: Float32Array = new Float32Array([
+    0, 1, 0, 1,
+    1, -1, 0, 1,
+    1, 1, 0, 1,
+  ]);
+  /* eslint-enable */
+
+  const buffer: WebGLBuffer | null = Buffer.initBuffer(
+    context,
+    vertices
+  );
+
+  const draw: any = (): void => {
+    context.bindBuffer(context.ARRAY_BUFFER, buffer);
+    context.enableVertexAttribArray(
+      context
+        .getAttribLocation(program, 'position')
+    );
+
+    context.vertexAttribPointer(
+      0,
+      4,
+      WebGL2RenderingContext.FLOAT,
+      false,
+      0,
+      0
+    );
+
+    context.drawArrays(context.TRIANGLE_STRIP, 0, 3);
+  };
+
+  draw();
 });
