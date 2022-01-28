@@ -32,6 +32,8 @@ function initShader(
     // eslint-disable-next-line
     console.error(context.getShaderInfoLog(shader));
 
+    context.deleteShader(shader);
+
     return null;
   }
 
