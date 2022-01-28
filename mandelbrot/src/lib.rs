@@ -73,7 +73,7 @@ pub fn get_mandelbrot(
             );
 
             if is_mandelbrot(complex, max_iteration) {
-                set.push(complex[0] + 0.5);
+                set.push(complex[0]);
                 set.push(complex[1]);
             }
         }

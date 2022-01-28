@@ -49,7 +49,7 @@ function getSet(
       const complex: [number, number] = getComplexNumber([i, j], height, width);
 
       if (isInMandelbrot(complex, iterationCount)) {
-        set.push(complex[0] + 0.5);
+        set.push(complex[0]);
         set.push(complex[1]);
       }
     }
