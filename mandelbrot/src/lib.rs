@@ -72,8 +72,8 @@ pub fn get_mandelbrot(
                 width as f32
             );
 
-            if (is_mandelbrot(complex, max_iteration)) {
-                set.push(complex[0]);
+            if is_mandelbrot(complex, max_iteration) {
+                set.push(complex[0] + 0.5);
                 set.push(complex[1]);
             }
         }
