@@ -8,6 +8,7 @@
     "dev": "npm run pre && webpack-dev-server --port 3000 --mode development",
     "build": "npm run pre && webpack --mode production",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
+    "lib:build": "cd ./mandelbrot && wasm-pack build --target web --out-dir ../wasm",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
