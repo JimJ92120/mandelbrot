@@ -20,6 +20,8 @@ function getProgram(
     // eslint-disable-next-line
     console.error(context.getProgramInfoLog(program));
 
+    context.deleteProgram(program);
+
     return null;
   }
 
