@@ -4,7 +4,11 @@ import Shaders from '@app/engine/Shaders';
 import Program from '@app/engine/Program';
 import Buffer from '@app/engine/Buffer';
 
-import Mandelbrot from '@app/Mandelbrot';
+// import Mandelbrot from '@app/Mandelbrot';
+
+import init, {
+  get_mandelbrot,
+} from '../wasm';
 
 function resizeCanvas(
   canvas: HTMLCanvasElement,
@@ -24,60 +28,77 @@ function resizeCanvas(
 }
 
 window.addEventListener('load', () => {
-  const canvas: HTMLCanvasElement = document.querySelector('#scene');
-  if (!canvas) return;
+  init()
+    .then(() => {
+      const canvas: HTMLCanvasElement = document.querySelector('#scene');
+      if (!canvas) return;
 
-  const context: WebGL2RenderingContext = canvas.getContext('webgl2');
-  if (!context) return;
+      const context: WebGL2RenderingContext = canvas.getContext('webgl2');
+      if (!context) return;
 
-  resizeCanvas(canvas, context);
-  context.clearColor(0, 0, 0, 1);
-  context.clear(WebGL2RenderingContext.COLOR_BUFFER_BIT);
+      resizeCanvas(canvas, context);
+      context.clearColor(0, 0, 0, 1);
+      context.clear(WebGL2RenderingContext.COLOR_BUFFER_BIT);
 
-  const { vertexShader, fragmentShader } = Shaders.getShaders(context);
-  if (!vertexShader || !fragmentShader) return;
+      const { vertexShader, fragmentShader } = Shaders.getShaders(context);
+      if (!vertexShader || !fragmentShader) return;
 
-  const program: WebGLProgram | null = Program.getProgram(
-    context,
-    vertexShader,
-    fragmentShader
-  );
-  if (!program) return;
+      const program: WebGLProgram | null = Program.getProgram(
+        context,
+        vertexShader,
+        fragmentShader
+      );
+      if (!program) return;
 
-  context.useProgram(program);
+      context.useProgram(program);
 
-  const vertices: number[] = Mandelbrot.getSet(
-    canvas.height,
-    canvas.width,
-    10
-  );
+      const maxIteration: number = 10000;
 
-  // eslint-disable-next-line
-  // console.log(vertices);
+      // console.time('typescript');
+      // const verticesTypescript: number[] = Mandelbrot.getSet(
+      //   canvas.height,
+      //   canvas.width,
+      //   maxIteration
+      // );
+      // console.timeEnd('typescript');
 
-  const buffer: WebGLBuffer | null = Buffer.initBuffer(
-    context,
-    new Float32Array(vertices)
-  );
+      // eslint-disable-next-line
+      console.time('rust');
+      const vertices: number[] = get_mandelbrot(
+        canvas.height,
+        canvas.width,
+        maxIteration
+      );
+      // eslint-disable-next-line
+      console.timeEnd('rust');
 
-  const draw: any = (): void => {
-    context.bindBuffer(context.ARRAY_BUFFER, buffer);
-    context.enableVertexAttribArray(
-      context
-        .getAttribLocation(program, 'position')
-    );
+      // eslint-disable-next-line
+      // console.log(vertices);
 
-    context.vertexAttribPointer(
-      0,
-      2,
-      WebGL2RenderingContext.FLOAT,
-      false,
-      0,
-      0
-    );
+      const buffer: WebGLBuffer | null = Buffer.initBuffer(
+        context,
+        new Float32Array(vertices)
+      );
 
-    context.drawArrays(context.POINTS, 0, vertices.length / 2);
-  };
+      const draw: any = (): void => {
+        context.bindBuffer(context.ARRAY_BUFFER, buffer);
+        context.enableVertexAttribArray(
+          context
+            .getAttribLocation(program, 'position')
+        );
 
-  draw();
+        context.vertexAttribPointer(
+          0,
+          2,
+          WebGL2RenderingContext.FLOAT,
+          false,
+          0,
+          0
+        );
+
+        context.drawArrays(context.POINTS, 0, vertices.length / 2);
+      };
+
+      draw();
+    });
 });
