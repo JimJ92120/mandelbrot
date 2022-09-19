@@ -1,6 +1,8 @@
 # mandelbrot
 
-A Mandelbrot set representation using WebAssembly with Rust and rendered with WebGL 2.
+A Mandelbrot set representation using WebAssembly with Rust and rendered with WebGL 2.  
+  
+See [demo](https://jimj92120.github.io/mandelbrot) in Github Pages.  
 
 ---
 ---
