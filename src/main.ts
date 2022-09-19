@@ -7,7 +7,7 @@ window.addEventListener('load', () => {
   init()
     .then(() => {
       const engine: Engine = new Engine("scene");
-      const maxIterationCount: number = 1000;
+      const maxIterationCount: number = 50;
       const mandelbrotSet = new Mandelbrot(
         engine.dimension[0],
         engine.dimension[1],
